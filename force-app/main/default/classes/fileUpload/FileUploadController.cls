@@ -1,59 +1,46 @@
 public with sharing class FileUploadController {
 
-@AuraEnabled
-    public static void csvFileRead(Id recordId){
-        System.debug(LoggingLevel.INFO, 'print record id----> info');    
-        System.debug(LoggingLevel.ERROR, 'print record id----> error');  
-          System.debug(LoggingLevel.INFO, '');
-    }
-}
-
-
-
-
-
-
-
-
 
     
-//     @AuraEnabled
-//     public static list<Contact> csvFileRead(Id contentDocumentId){
-//         // public static list<Contact> csvFileRead(Id contentDocumentId, String recordId){
+    @AuraEnabled(cacheable=true)
+    public static List<Contact> getContactsRelatedToAccount(String accId) {
+        system.debug('accId >> ' + accId);
+        return [SELECT Id, FirstName, LastName, Email, Phone from Contact where AccountId = :accId];
+    }
 
-//         list<Contact> contactInsertList = new list<Contact>();
+
+
+        @AuraEnabled
+        public static list<Contact> csvFileRead(String recordId, Id contentDocumentId){
         
-
-//         if(contentDocumentId != null) {
+        list<Contact> contactInsertList = new list<Contact>();
+        if(contentDocumentId != null) {
             
-//             // Fetch File Data based on the basic of document id 
-//             ContentVersion contentVersionObj = [SELECT Id, VersionData FROM ContentVersion WHERE ContentDocumentId =:contentDocumentId];
-//             // split the file data
-//             list<String> csvRecordsList = contentVersionObj.VersionData.toString().split('\n');
+            
+            ContentVersion contentVersionObj = [SELECT Id, VersionData FROM ContentVersion WHERE ContentDocumentId =:contentDocumentId];
+            
+            list<String> csvRecordsList = contentVersionObj.VersionData.toString().split('\n');
 
-//             for(Integer i = 1; i < csvRecordsList.size(); i++){
-//                 Contact contactObj = new Contact();
-//                 list<String> csvRowData = csvRecordsList[i].split(',');
-//                 // System.debug('csvRowData====> '+csvRowData);
-//                 contactObj.FirstName = csvRowData[0];
-//                 contactObj.LastName = csvRowData[1];
-//                 // contactObj.AccountId = recordId;
-//                 contactInsertList.add(contactObj);
-//                 // System.debug('url -----------------> '+System.Apexpages.currentPage().getUrl());
-//                 // System.debug('id -----------------> '+ recordId);
-                
-//             }
+            for(Integer i = 1; i < csvRecordsList.size(); i++){
+                Contact contactObj = new Contact();
+                list<String> csvRowData = csvRecordsList[i].split(',');
 
-//             try{    
-//                 if(!contactInsertList.isEmpty()) {
-//                     insert contactInsertList;
+                contactObj.FirstName = csvRowData[0]; // accName
+                contactObj.LastName = csvRowData[1];
+                contactObj.AccountId = recordId;
+                contactInsertList.add(contactObj);
+            }
 
-//                 }
-//             }
-//             catch (Exception ex) {
-//                 throw new AuraHandledException(ex.getMessage());
-//             } 
-//         }
-//         return contactInsertList;    
-//     }
-// }
+            try{    
+                if(!contactInsertList.isEmpty()) {
+                    insert contactInsertList;
+                    // Database.insert(contactInsertList, false);
+                }
+            }
+            catch (Exception ex) {
+                throw new AuraHandledException(ex.getMessage());
+            } 
+        }
+        return contactInsertList;    
+    }
+}

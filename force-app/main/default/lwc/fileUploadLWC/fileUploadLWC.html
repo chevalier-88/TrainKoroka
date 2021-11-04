@@ -2,7 +2,7 @@
 <template>
     <lightning-card icon-name="custom:custom19" title='CSV File Read'>
         <div style="margin-left: 40%">
-            <lightning-file-upload accept={acceptedCSVFormats} 
+            <lightning-file-upload accept={csvFormat} 
                                    label="Attach receipt" 
                                    onuploadfinished={uploadFileHandler} 
                                    record-id={recordId}></lightning-file-upload>
@@ -11,16 +11,20 @@
 
         <div if:true={error}>
             {error}
-        </div>
-        <br/>
-        <hr/>
-        <br/>
-        <div if:true={data}>
-            <lightning-datatable columns={columnsContact} 
-                                 data={data} 
+        </div><br/>
+
+        <div if:true={contacts}>
+            <!-- <lightning-card title="LWC Record Id Example "> -->
+                <!-- <lightning-datatable 
+                    data={contacts} columns={columns} key-field="Id"
+                    hide-checkbox-column="true">
+                </lightning-datatable> -->
+                <lightning-datatable columns={columns} 
+                                 data={contacts} 
                                  hide-checkbox-column="true" 
                                  key-field="id"></lightning-datatable>
+            <!-- </lightning-card> -->
         </div>
-        
+
     </lightning-card>
 </template>
