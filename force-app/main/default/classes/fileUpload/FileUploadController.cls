@@ -1,3 +1,4 @@
+
 public with sharing class FileUploadController {
 
 
@@ -25,7 +26,7 @@ public with sharing class FileUploadController {
                 Contact contactObj = new Contact();
                 list<String> csvRowData = csvRecordsList[i].split(',');
 
-                contactObj.FirstName = csvRowData[0]; // accName
+                contactObj.FirstName = csvRowData[0];
                 contactObj.LastName = csvRowData[1];
                 contactObj.AccountId = recordId;
                 contactInsertList.add(contactObj);

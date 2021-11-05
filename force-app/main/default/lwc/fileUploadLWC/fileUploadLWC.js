@@ -4,16 +4,17 @@ import getContactsRelatedToAccount from '@salesforce/apex/FileUploadController.g
 import csvFileRead from '@salesforce/apex/FileUploadController.csvFileRead';
 
 
+const columns = [
+        { label: 'First Name', fieldName: 'FirstName', type: 'text' },
+        { label: 'Last Name', fieldName: 'LastName', type: 'text' }
+    ];
+
 export default class FileUploadLWC extends LightningElement {
 
     @api recordId;
     @track error;
-    @track contacts;
-    
-    @track columns = [
-        { label: 'First Name', fieldName: 'FirstName', type: 'text' },
-        { label: 'Last Name', fieldName: 'LastName', type: 'text' }
-    ];
+    @track data;
+    @track columns = columns;
 
     get csvFormat() {
         return ['.csv'];
@@ -22,11 +23,11 @@ export default class FileUploadLWC extends LightningElement {
     @wire(getContactsRelatedToAccount, {accId: '$recordId'}) 
     WireContactRecords({error, data}){
         if(data){
-            this.contacts = data;
+            this.data = data;
             this.error = undefined;
         }else{
             this.error = error;
-            this.contacts = undefined;
+            this.data = undefined;
         }
     }
 
@@ -61,5 +62,3 @@ export default class FileUploadLWC extends LightningElement {
 
     }
 }
- 
-  
