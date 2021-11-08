@@ -5,8 +5,16 @@ import csvFileRead from '@salesforce/apex/FileUploadController.csvFileRead';
 
 
 const columns = [
-        { label: 'First Name', fieldName: 'FirstName', type: 'text' },
-        { label: 'Last Name', fieldName: 'LastName', type: 'text' }
+    { label: 'First Name', fieldName: 'FirstName', type: 'text' },
+    { label: 'Last Name', fieldName: 'LastName', type: 'text' },
+    {type: "button", typeAttributes: {  
+        label: 'View',  
+        name: 'View',  
+        title: 'View',  
+        disabled: false,  
+        value: 'view',  
+        iconPosition: 'left'  
+    }}
     ];
 
 export default class FileUploadLWC extends LightningElement {
@@ -31,6 +39,45 @@ export default class FileUploadLWC extends LightningElement {
         }
     }
 
+    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+    callRowAction( event ) {  
+          
+        const recId =  event.detail.row.Id;  
+        const actionName = event.detail.action.name;  
+        if ( actionName === 'Edit' ) {  
+  //TODO
+            // this[NavigationMixin.Navigate]({  
+            //     type: 'standard__recordPage',  
+            //     attributes: {  
+            //         recordId: recId,  
+            //         objectApiName: 'Account',  
+            //         actionName: 'edit'  
+            //     }  
+            // })  
+  
+        } else if ( actionName === 'View') {  
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'View!!',
+                    message: 'Congratulation!!!\n You press view button!!!!',
+                    variant: 'Info',
+                }));
+
+            // this[NavigationMixin.Navigate]({  
+            //     type: 'standard__recordPage',  
+            //     attributes: {  
+            //         recordId: recId,  
+            //         objectApiName: 'Account',  
+            //         actionName: 'view'  
+            //     }  
+            // })  
+  
+        }          
+  
+    }
+
+    // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=
     uploadFileHandler(event) {
            
         const uploadedFiles = event.detail.files;

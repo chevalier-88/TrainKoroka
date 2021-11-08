@@ -9,7 +9,7 @@ public with sharing class FileUploadController {
         return [SELECT Id, FirstName, LastName, Email, Phone from Contact where AccountId = :accId];
     }
 
-
+// getRowActions
 
         @AuraEnabled
         public static list<Contact> csvFileRead(String recordId, Id contentDocumentId){
