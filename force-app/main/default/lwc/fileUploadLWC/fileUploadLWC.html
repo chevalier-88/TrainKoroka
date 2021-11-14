@@ -1,37 +1,43 @@
 <!-- sldsValidatorIgnore -->
 <template>
-    
-    <lightning-card icon-name="custom:custom19" title='CSV File Read'>
-
-        
-
-
-
-
-            
-            <div>
-            <lightning-file-upload accept={csvFormat} 
-                                   label="File upload:" 
-                                   onuploadfinished={uploadFileHandler} 
-                                   record-id={recordId}
-                                   ></lightning-file-upload>
-            </div>
-        <div if:true={error}>
-            {error}
-        </div><br/>
-
-        <div if:true={data}>
-              <lightning-datatable 
-                columns={columns} 
-                data={data} 
-                column-widths-mode='auto' 
-                min-column-width="50" 
-                hide-checkbox-column="true"
-                show-row-number-column = "true"
-                key-field="id"
-                onrowaction={callRowAction}>
-              </lightning-datatable>
+  <lightning-card title="Process CSV File">
+    <div class="slds-form-element slds-align_absolute-center">
+    <!-- <span class="slds-form-element__label" id="file-selector-primary-label-105">Attachment</span> -->
+      <div class="slds-form-element__control">
+        <div class="slds-file-selector slds-file-selector_files">
+          <div class="slds-file-selector__dropzone">
+            <input type="file" onchange={handleFilesChange} class="slds-file-selector__input slds-assistive-text" accept=".csv" id="file-upload-input-107" aria-labelledby="file-selector-primary-label-105 file-selector-secondary-label106" />
+            <label class="slds-file-selector__body" for="file-upload-input-107" id="file-selector-secondary-label106">
+              <span class="slds-file-selector__button slds-button slds-button_neutral">
+                <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                  <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                </svg>
+                Upload Files
+              </span>
+              <span class="slds-file-selector__text slds-medium-show">or Drop Files</span>
+            </label>
+          </div>
         </div>
+      </div>
+    </div>
+    
+    <!--  -->
 
-    </lightning-card>
+    <div if:true={error}>
+      {error}
+    </div><br/>
+
+    <div if:true={data}>
+      <lightning-datatable 
+        columns={columns} 
+        data={data} 
+        column-widths-mode='auto' 
+        min-column-width="50" 
+        hide-checkbox-column="true"
+        show-row-number-column = "true"
+        key-field="id"
+        onrowaction={callRowAction}>
+      </lightning-datatable>
+    </div>
+  </lightning-card>
 </template>
