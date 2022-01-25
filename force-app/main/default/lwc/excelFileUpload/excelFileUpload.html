@@ -1,0 +1,27 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <lightning-card title="Process Excel File Upload">
+      <div class="slds-form-element slds-align_absolute-center">
+        <div class="slds-form-element__control">
+          <div class="slds-file-selector slds-file-selector_files">
+            <div class="slds-file-selector__dropzone">
+              <input type="file" onchange={handleFilesChange} class="slds-file-selector__input slds-assistive-text" accept=".xlsx" id="file-upload-input-107" aria-labelledby="file-selector-primary-label-105 file-selector-secondary-label106" />
+              <label class="slds-file-selector__body" for="file-upload-input-107" id="file-selector-secondary-label106">
+                <span class="slds-file-selector__button slds-button slds-button_neutral">
+                  <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+                    <use xlink:href="/_slds/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                  </svg>
+                  Upload Files
+                </span>
+                <span class="slds-file-selector__text slds-medium-show">or Drop Files</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div if:true={error}>
+        {error}
+      </div><br/>
+    </lightning-card>
+  </template>

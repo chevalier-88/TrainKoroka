@@ -1,4 +1,3 @@
-
 public with sharing class FileUploadController{
   private String base64Data;
   private String filename;
@@ -28,7 +27,8 @@ public with sharing class FileUploadController{
 
       contactObj.FirstName = csvRowData[0].trim();
       contactObj.LastName = csvRowData[1].trim();
-      contactObj.AccountId = accId;
+      // contactObj.AccountId = accId;
+      contactObj.AccountId = '00109000014JXhSAAW';
       contactList.add(contactObj);
     }
     try{    
