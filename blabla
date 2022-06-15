@@ -1,0 +1,111 @@
+import { LightningElement, track, wire, api } from 'lwc';
+
+export default class InfoAudioFiles extends LightningElement {
+
+    file;
+    fileReader;
+    
+    fileName;
+    fileData;
+
+    handleFilesChange(event) {
+        this.file = event.target.files[0];
+        console.log('---> file name: ' + this.file.name);
+
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            audioContext.decodeAudioData(event.target.result, function(buffer) {
+                var duration = buffer.duration;
+                console.log("The duration of the song is of: " + duration + " seconds");
+            });
+        };
+        reader.onerror = function (event) {
+            console.error("An error ocurred reading the file: ", event);
+        };
+    
+        reader.readAsArrayBuffer(this.file);
+
+
+        // var mp3file = "https://d6g000002fhcreaa--partialws.my.salesforce.com/sfc/p/8K0000008heK/a/8K0000000341/XVmGSp0nwre4H3JNPRWlbIIVgAvfqZqxwCoy7EhzK6w";
+
+        // var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        // var request = new XMLHttpRequest();
+        // // request.setRequestHeader("Access-Control-Allow-Origin", "*");
+        // request.open('GET', mp3file, true);
+        // request.SetValue("Access-Control-Allow-Origin","*");
+        // request.responseType = 'arraybuffer';
+        // request.onload = function() {
+        //     console.log('---> 1');
+        //     audioContext.decodeAudioData(request.response, function(buffer) {
+        //         console.log('---> 2');
+        //         var duration = buffer.duration;
+        //         console.log("The duration of the song is of: " + duration + " seconds");
+        //     });
+        // };
+        // request.send();
+
+
+
+
+        // this.fileReader = new FileReader();
+        // this.fileReader.onload = (e)=>{
+        //     let audio = document.createElement('audio');
+        //     audio.src = e.target.result;
+        //     audio.addEventListener('loadedmetadata', function(){
+        //         var duration = audio.duration;
+        //         console.log('---> duration: ' + duration);
+        //     },false);
+        // };
+        // this.fileReader.readAsDataURL(this.file);
+ 
+    }
+}
+//---------
+
+//---------------------
+//
+// this.file = e.target.files[0];
+
+//         Promise.all([
+//             loadScript(this, JQUERY_MINI_JS),
+//             loadScript(this, XLSX_MINI_JS)
+//         ]).then(() => {
+//             this.handleFile(this.file);
+        
+//         }).catch(error => {
+//             alert('---> BROKEN <---');
+//             console.log('----> error: '+error);
+//         });
+
+
+/**
+import { LightningElement, track, wire, api } from 'lwc';
+import getAudioFiles from "@salesforce/apex/InfoAudioFilesController.getAudioFiles";
+
+const columns = [
+    { label: 'File Name', fieldName: 'name', type: 'text' },
+    { label: 'File Size', fieldName: 'size', type: 'text' },
+    { label: 'File Duration', fieldName: 'duration', type: 'text' }
+];
+
+export default class InfoAudioFiles extends LightningElement {
+
+    @api recordId;
+    @track data;
+    @track error;
+    @track columns = columns;
+
+    file;
+    fileReader;
+
+    connectedCallback() {
+        getAudioFiles({value: this.recordId})
+            .then( result => {
+                console.log('---> result: ' + result);
+            }).catch(error => {
+                console('ERROR: ' + error);
+            });
+    }
+
+}*/
